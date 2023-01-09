@@ -34,7 +34,6 @@ xenFantomContract.urlPath = "fantom";
 const accounts = fs.readFileSync('accounts.txt').toString().split("\n");
 
 const getMintData = (mintData, contract) => {
-    const events = [];
     [account, term, maturityTs, rank, amplifier, eaaRate] = mintData;
     if (account !== "0x0000000000000000000000000000000000000000") {
         console.log(`Account: ${account}. Term: ${term}. Maturity ${maturityTs}`);
