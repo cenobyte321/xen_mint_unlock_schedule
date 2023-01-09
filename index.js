@@ -30,10 +30,7 @@ const xenFantomContract = new ethers.Contract(XEN_ADDRESS_FANTOM, contractAbi, f
 xenFantomContract.blockchain = "Fantom";
 xenFantomContract.urlPath = "fantom";
 
-// Read lines from accounts.txt and store as array
-const accounts = fs.readFileSync('accounts.txt').toString().split("\n");
-
-const getMintData = (mintData, contract) => {
+const generateEvent = (mintData, contract) => {
     [account, term, maturityTs, rank, amplifier, eaaRate] = mintData;
     if (account !== "0x0000000000000000000000000000000000000000") {
         console.log(`Account: ${account}. Term: ${term}. Maturity ${maturityTs}`);
@@ -57,12 +54,21 @@ const getMintData = (mintData, contract) => {
 };
 
 const main = async () => {
+    console.log("Starting XEN Mint ICS generator...");
+    console.log("Validate existence of accounts.txt file...");
+    if (!fs.existsSync('accounts.txt')) {
+        console.log("accounts.txt file not found. Exiting...");
+        return;
+    }
+    console.log("accounts.txt file found. Reading accounts...");
+    const accounts = fs.readFileSync('accounts.txt', 'utf-8').split(/\r?\n/);
+
     const events = [];
     for (const contract of [xenEthereumContract, xenAvalancheContract, xenFantomContract]) {
         console.log(`Getting mint data for ${contract.blockchain}...`);
         const promises = accounts.map(async (account) => {
              const mintData = await contract.userMints(account);
-             return getMintData(mintData, contract);
+             return generateEvent(mintData, contract);
         });
 
         let unlockEvents = await Promise.all(promises);
