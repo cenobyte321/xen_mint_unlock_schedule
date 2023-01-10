@@ -36,7 +36,7 @@ const generateEvent = (mintData, contract) => {
     }
 };
 
-const setupContracts = () =>{
+const setupContracts = () => {
     const xenContracts = [];
     // Setup the providers
     const ethereumProvider = new ethers.providers.JsonRpcProvider(process.env.ETHEREUM_RPC_URL);
@@ -66,7 +66,7 @@ const main = async () => {
 
     console.log("Validate existence of accounts.txt file...");
     if (!fs.existsSync('accounts.txt')) {
-        console.log("accounts.txt file not found. Exiting...");
+        console.error("accounts.txt file not found. Exiting...");
         return;
     }
     console.log("accounts.txt file found. Reading accounts...");
