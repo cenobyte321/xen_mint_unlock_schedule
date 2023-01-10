@@ -41,7 +41,7 @@ const generateEvent = (mintData, contract) => {
             .map((x) => parseInt(x))
             .splice(0, 6);
         return {
-            title: `XEN Unlock for ${account} (${contract.blockchain})`,
+            title: `XEN [${contract.blockchain}] Unlock for ${account}`,
             start: timestamp,
             startInputType: 'utc',
             duration: { minutes: 30 },
